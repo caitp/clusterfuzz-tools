@@ -260,7 +260,7 @@ def create_builder_class(build, definition):
 @stackdriver_logging.log
 def execute(testcase_id, current, build, disable_goma, goma_threads, goma_load,
             iterations, disable_xvfb, target_args, edit_mode, skip_deps,
-            enable_debug, extra_log_params):
+            enable_debug, extra_log_params, force):
   """Execute the reproduce command."""
   options = common.Options(
       testcase_id=testcase_id,
@@ -275,7 +275,7 @@ def execute(testcase_id, current, build, disable_goma, goma_threads, goma_load,
       edit_mode=edit_mode,
       skip_deps=skip_deps,
       enable_debug=enable_debug,
-      extra_log_params=extra_log_params)
+      extra_log_params=extra_log_params, force=force)
 
   logger.info('Reproducing testcase %s', testcase_id)
   logger.debug('%s', str(options))
@@ -305,7 +305,7 @@ def execute(testcase_id, current, build, disable_goma, goma_threads, goma_load,
       binary_provider=binary_provider,
       testcase=current_testcase,
       sanitizer=definition.sanitizer,
-      options=options)
+      options=options, force=force)
   try:
     reproducer.reproduce(iterations)
   finally:

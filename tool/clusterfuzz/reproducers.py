@@ -269,12 +269,14 @@ class BaseReproducer(object):
       gesture_start_time = DEFAULT_GESTURE_TIME
     return gesture_start_time
 
-  def __init__(self, definition, binary_provider, testcase, sanitizer, options):
+  def __init__(self, definition, binary_provider, testcase, sanitizer, options,
+               force=False):
     self.definition = definition
     self.testcase = testcase
     self.binary_provider = binary_provider
     self.sanitizer = sanitizer
     self.options = options
+    self.force = force
     # TODO(tanin): remove these attributes. We shouldn't forward the
     # attributes.
     self.original_testcase_path = testcase.absolute_path
@@ -334,9 +336,13 @@ class BaseReproducer(object):
     """Reproduce the crash."""
     # read_buffer_length needs to be 1, and stdin needs to be UserStdin.
     # Otherwise, it wouldn't work well with gdb.
+    if self.force:
+      args = self.testcase.get_testcase_path()
+    else:
+      args = self.args
     return common.execute(
         self.binary_path,
-        self.args,
+        args,
         self.build_directory,
         env=self.environment,
         exit_on_error=False,
