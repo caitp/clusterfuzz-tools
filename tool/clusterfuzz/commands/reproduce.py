@@ -117,7 +117,7 @@ def send_request(url, data):
   return response
 
 
-def get_testcase_and_identity(testcase_id):
+def get_testcase_and_identity(testcase_id, force=False):
   """Pulls testcase information from ClusterFuzz.
 
   Returns a dictionary with the JSON response if the
@@ -127,7 +127,7 @@ def get_testcase_and_identity(testcase_id):
   data = json.dumps({'testcaseId': testcase_id})
   try:
     resp = send_request(CLUSTERFUZZ_TESTCASE_INFO_URL, data)
-    return (testcase.create(json.loads(resp.text)),
+    return (testcase.create(json.loads(resp.text), force),
             resp.headers[CLUSTERFUZZ_AUTH_IDENTITY])
   except error.ClusterFuzzError as e:
     if e.status_code == 404:
@@ -282,7 +282,7 @@ def execute(testcase_id, current, build, disable_goma, goma_threads, goma_load,
 
   common.ensure_important_dirs()
 
-  current_testcase, identity = get_testcase_and_identity(testcase_id)
+  current_testcase, identity = get_testcase_and_identity(testcase_id, force)
   extra_log_params['identity'] = identity
   extra_log_params['job_type'] = current_testcase.job_type
   extra_log_params['platform'] = current_testcase.platform
@@ -305,7 +305,7 @@ def execute(testcase_id, current, build, disable_goma, goma_threads, goma_load,
       binary_provider=binary_provider,
       testcase=current_testcase,
       sanitizer=definition.sanitizer,
-      options=options, force=force)
+      options=options)
   try:
     reproducer.reproduce(iterations)
   finally:

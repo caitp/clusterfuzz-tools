@@ -288,12 +288,13 @@ def get_binary_name(stacktrace, force=False):
 
   if not force:
     raise error.MinimizationNotFinishedError()
+
   # Hack for afl and libFuzzer binaries.
-  engine_target_regex = r'.*-linux-release-\d+/(.+\_fuzzer)'
+  engine_target_regex = r'.*/(?P<fuzz_target>.+\_fuzzer)'
   matches = re.search(engine_target_regex,
                       ''.join(l['content'] for l in stacktrace))
   if matches:
-    return matches.groups()[0]
+    return matches.groupdict()['fuzz_target']
 
   raise error.MinimizationNotFinishedError()
 
