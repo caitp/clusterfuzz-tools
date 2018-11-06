@@ -9,8 +9,9 @@ needed by ClusterFuzz's users.
 
 It works on Linux and Mac. 
 Follow the instructions on [Reproducing on Windows](https://chromium.googlesource.com/chromium/src/+/master/testing/libfuzzer/reproducing_on_windows.md) to reproduce a crash found by libFuzzer on Windows.
+The issue filed by CLusterFuzz should have a link to the correct instructions on how to reproduce.
 
-Currently, it supports reproducing a crash locally. In the future, it will
+Currently, this tool supports reproducing a crash locally. In the future, it will
 support uploading a fuzzer, tailing fuzzer log, and uploading a testcase.
 
 
