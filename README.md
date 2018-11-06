@@ -7,6 +7,9 @@ ClusterFuzz tools
 The tools supports various tasks (e.g. reproduce a crash locally)
 needed by ClusterFuzz's users.
 
+It works on Linux and Mac. 
+Follow the instructions on [Reproducing on Windows](https://chromium.googlesource.com/chromium/src/+/master/testing/libfuzzer/reproducing_on_windows.md) to reproduce a crash found by libFuzzer on Windows.
+
 Currently, it supports reproducing a crash locally. In the future, it will
 support uploading a fuzzer, tailing fuzzer log, and uploading a testcase.
 
