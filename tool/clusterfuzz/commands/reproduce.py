@@ -86,7 +86,6 @@ def send_request(url, data):
 
   Attempts to authenticate and is guaranteed to either
   return a valid, authorized response or throw an exception."""
-  print url
   header = common.get_stored_auth_header() or get_verification_header()
   response = None
   for _ in range(RETRY_COUNT):
